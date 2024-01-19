@@ -37,7 +37,7 @@ entity Enterprise {
     businessRegisterNumber String required
     uniqueIdentificationNumber String required
     businessDomicile String
-    businessEmail String required pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+    email String required pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
     businessPhone String required
     country Pays
     city String
@@ -130,8 +130,8 @@ relationship OneToOne {
 relationship OneToOne {
 	Department{location} to Location
 }
-relationship OneToOne {
-	Employee{enterprise(compagnyName)} to Enterprise{employee}
+relationship OneToMany {
+	Employee{enterprise(companyName)} to Enterprise{employee}
 }
 relationship ManyToMany {
 	Job{task(title)} to Task{job}
@@ -150,7 +150,7 @@ relationship OneToMany {
 	Employee{department}
 }
 
-relationship ManyToOne {
+relationship OneToMany {
 	Employee{manager(email)} to Employee{employe}
 }
 
