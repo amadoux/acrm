@@ -41,7 +41,7 @@ public class Job implements Serializable {
     private Set<Task> tasks = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "enterprise", "jobs", "manager", "department", "employes", "jobHistory" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "enterprises", "jobs", "managers", "department", "employe", "jobHistory" }, allowSetters = true)
     private Employee employee;
 
     @JsonIgnoreProperties(value = { "job", "department", "employee" }, allowSetters = true)

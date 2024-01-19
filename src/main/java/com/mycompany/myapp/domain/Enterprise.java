@@ -48,8 +48,8 @@ public class Enterprise implements Serializable {
 
     @NotNull
     @Pattern(regexp = "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
-    @Column(name = "business_email", nullable = false)
-    private String businessEmail;
+    @Column(name = "email", nullable = false)
+    private String email;
 
     @NotNull
     @Column(name = "business_phone", nullable = false)
@@ -76,8 +76,8 @@ public class Enterprise implements Serializable {
     @Column(name = "map_locator_content_type")
     private String mapLocatorContentType;
 
-    @JsonIgnoreProperties(value = { "enterprise", "jobs", "manager", "department", "employes", "jobHistory" }, allowSetters = true)
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "enterprise")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = { "enterprises", "jobs", "managers", "department", "employe", "jobHistory" }, allowSetters = true)
     private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -147,17 +147,17 @@ public class Enterprise implements Serializable {
         this.businessDomicile = businessDomicile;
     }
 
-    public String getBusinessEmail() {
-        return this.businessEmail;
+    public String getEmail() {
+        return this.email;
     }
 
-    public Enterprise businessEmail(String businessEmail) {
-        this.setBusinessEmail(businessEmail);
+    public Enterprise email(String email) {
+        this.setEmail(email);
         return this;
     }
 
-    public void setBusinessEmail(String businessEmail) {
-        this.businessEmail = businessEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getBusinessPhone() {
@@ -256,12 +256,6 @@ public class Enterprise implements Serializable {
     }
 
     public void setEmployee(Employee employee) {
-        if (this.employee != null) {
-            this.employee.setEnterprise(null);
-        }
-        if (employee != null) {
-            employee.setEnterprise(this);
-        }
         this.employee = employee;
     }
 
@@ -298,7 +292,7 @@ public class Enterprise implements Serializable {
             ", businessRegisterNumber='" + getBusinessRegisterNumber() + "'" +
             ", uniqueIdentificationNumber='" + getUniqueIdentificationNumber() + "'" +
             ", businessDomicile='" + getBusinessDomicile() + "'" +
-            ", businessEmail='" + getBusinessEmail() + "'" +
+            ", email='" + getEmail() + "'" +
             ", businessPhone='" + getBusinessPhone() + "'" +
             ", country='" + getCountry() + "'" +
             ", city='" + getCity() + "'" +

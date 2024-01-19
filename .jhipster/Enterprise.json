@@ -27,7 +27,7 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "businessEmail",
+      "fieldName": "email",
       "fieldType": "String",
       "fieldValidateRules": ["required", "pattern"],
       "fieldValidateRulesPattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
@@ -70,7 +70,7 @@
       "otherEntityRelationshipName": "enterprise",
       "relationshipName": "employee",
       "relationshipSide": "right",
-      "relationshipType": "one-to-one"
+      "relationshipType": "many-to-one"
     }
   ],
   "searchEngine": "no",

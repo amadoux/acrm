@@ -5,7 +5,6 @@ import com.mycompany.myapp.repository.EnterpriseRepository;
 import com.mycompany.myapp.service.EnterpriseService;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -57,8 +56,8 @@ public class EnterpriseServiceImpl implements EnterpriseService {
                 if (enterprise.getBusinessDomicile() != null) {
                     existingEnterprise.setBusinessDomicile(enterprise.getBusinessDomicile());
                 }
-                if (enterprise.getBusinessEmail() != null) {
-                    existingEnterprise.setBusinessEmail(enterprise.getBusinessEmail());
+                if (enterprise.getEmail() != null) {
+                    existingEnterprise.setEmail(enterprise.getEmail());
                 }
                 if (enterprise.getBusinessPhone() != null) {
                     existingEnterprise.setBusinessPhone(enterprise.getBusinessPhone());
@@ -92,19 +91,6 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     public List<Enterprise> findAll() {
         log.debug("Request to get all Enterprises");
         return enterpriseRepository.findAll();
-    }
-
-    /**
-     *  Get all the enterprises where Employee is {@code null}.
-     *  @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public List<Enterprise> findAllWhereEmployeeIsNull() {
-        log.debug("Request to get all enterprises where Employee is null");
-        return StreamSupport
-            .stream(enterpriseRepository.findAll().spliterator(), false)
-            .filter(enterprise -> enterprise.getEmployee() == null)
-            .toList();
     }
 
     @Override

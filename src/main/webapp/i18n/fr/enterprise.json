@@ -22,7 +22,7 @@
       "businessRegisterNumber": "Business Register Number",
       "uniqueIdentificationNumber": "Unique Identification Number",
       "businessDomicile": "Business Domicile",
-      "businessEmail": "Business Email",
+      "email": "Email",
       "businessPhone": "Business Phone",
       "country": "Country",
       "city": "City",

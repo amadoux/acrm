@@ -40,7 +40,7 @@ public class Department implements Serializable {
      */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "department")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "enterprise", "jobs", "manager", "department", "employes", "jobHistory" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "enterprises", "jobs", "managers", "department", "employe", "jobHistory" }, allowSetters = true)
     private Set<Employee> employees = new HashSet<>();
 
     @JsonIgnoreProperties(value = { "job", "department", "employee" }, allowSetters = true)

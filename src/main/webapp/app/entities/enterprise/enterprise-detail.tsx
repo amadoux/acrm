@@ -59,11 +59,11 @@ export const EnterpriseDetail = () => {
           </dt>
           <dd>{enterpriseEntity.businessDomicile}</dd>
           <dt>
-            <span id="businessEmail">
-              <Translate contentKey="acrmApp.enterprise.businessEmail">Business Email</Translate>
+            <span id="email">
+              <Translate contentKey="acrmApp.enterprise.email">Email</Translate>
             </span>
           </dt>
-          <dd>{enterpriseEntity.businessEmail}</dd>
+          <dd>{enterpriseEntity.email}</dd>
           <dt>
             <span id="businessPhone">
               <Translate contentKey="acrmApp.enterprise.businessPhone">Business Phone</Translate>
@@ -126,6 +126,10 @@ export const EnterpriseDetail = () => {
               </div>
             ) : null}
           </dd>
+          <dt>
+            <Translate contentKey="acrmApp.enterprise.employee">Employee</Translate>
+          </dt>
+          <dd>{enterpriseEntity.employee ? enterpriseEntity.employee.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/enterprise" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

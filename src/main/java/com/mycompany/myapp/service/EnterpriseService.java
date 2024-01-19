@@ -40,13 +40,6 @@ public interface EnterpriseService {
     List<Enterprise> findAll();
 
     /**
-     * Get all the Enterprise where Employee is {@code null}.
-     *
-     * @return the {@link List} of entities.
-     */
-    List<Enterprise> findAllWhereEmployeeIsNull();
-
-    /**
      * Get the "id" enterprise.
      *
      * @param id the id of the entity.

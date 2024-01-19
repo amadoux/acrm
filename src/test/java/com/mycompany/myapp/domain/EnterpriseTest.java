@@ -30,10 +30,8 @@ class EnterpriseTest {
 
         enterprise.setEmployee(employeeBack);
         assertThat(enterprise.getEmployee()).isEqualTo(employeeBack);
-        assertThat(employeeBack.getEnterprise()).isEqualTo(enterprise);
 
         enterprise.employee(null);
         assertThat(enterprise.getEmployee()).isNull();
-        assertThat(employeeBack.getEnterprise()).isNull();
     }
 }

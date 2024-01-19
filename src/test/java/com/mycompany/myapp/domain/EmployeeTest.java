@@ -34,11 +34,21 @@ class EmployeeTest {
         Employee employee = getEmployeeRandomSampleGenerator();
         Enterprise enterpriseBack = getEnterpriseRandomSampleGenerator();
 
-        employee.setEnterprise(enterpriseBack);
-        assertThat(employee.getEnterprise()).isEqualTo(enterpriseBack);
+        employee.addEnterprise(enterpriseBack);
+        assertThat(employee.getEnterprises()).containsOnly(enterpriseBack);
+        assertThat(enterpriseBack.getEmployee()).isEqualTo(employee);
 
-        employee.enterprise(null);
-        assertThat(employee.getEnterprise()).isNull();
+        employee.removeEnterprise(enterpriseBack);
+        assertThat(employee.getEnterprises()).doesNotContain(enterpriseBack);
+        assertThat(enterpriseBack.getEmployee()).isNull();
+
+        employee.enterprises(new HashSet<>(Set.of(enterpriseBack)));
+        assertThat(employee.getEnterprises()).containsOnly(enterpriseBack);
+        assertThat(enterpriseBack.getEmployee()).isEqualTo(employee);
+
+        employee.setEnterprises(new HashSet<>());
+        assertThat(employee.getEnterprises()).doesNotContain(enterpriseBack);
+        assertThat(enterpriseBack.getEmployee()).isNull();
     }
 
     @Test
@@ -68,11 +78,21 @@ class EmployeeTest {
         Employee employee = getEmployeeRandomSampleGenerator();
         Employee employeeBack = getEmployeeRandomSampleGenerator();
 
-        employee.setManager(employeeBack);
-        assertThat(employee.getManager()).isEqualTo(employeeBack);
+        employee.addManager(employeeBack);
+        assertThat(employee.getManagers()).containsOnly(employeeBack);
+        assertThat(employeeBack.getEmploye()).isEqualTo(employee);
 
-        employee.manager(null);
-        assertThat(employee.getManager()).isNull();
+        employee.removeManager(employeeBack);
+        assertThat(employee.getManagers()).doesNotContain(employeeBack);
+        assertThat(employeeBack.getEmploye()).isNull();
+
+        employee.managers(new HashSet<>(Set.of(employeeBack)));
+        assertThat(employee.getManagers()).containsOnly(employeeBack);
+        assertThat(employeeBack.getEmploye()).isEqualTo(employee);
+
+        employee.setManagers(new HashSet<>());
+        assertThat(employee.getManagers()).doesNotContain(employeeBack);
+        assertThat(employeeBack.getEmploye()).isNull();
     }
 
     @Test
@@ -92,21 +112,11 @@ class EmployeeTest {
         Employee employee = getEmployeeRandomSampleGenerator();
         Employee employeeBack = getEmployeeRandomSampleGenerator();
 
-        employee.addEmploye(employeeBack);
-        assertThat(employee.getEmployes()).containsOnly(employeeBack);
-        assertThat(employeeBack.getManager()).isEqualTo(employee);
+        employee.setEmploye(employeeBack);
+        assertThat(employee.getEmploye()).isEqualTo(employeeBack);
 
-        employee.removeEmploye(employeeBack);
-        assertThat(employee.getEmployes()).doesNotContain(employeeBack);
-        assertThat(employeeBack.getManager()).isNull();
-
-        employee.employes(new HashSet<>(Set.of(employeeBack)));
-        assertThat(employee.getEmployes()).containsOnly(employeeBack);
-        assertThat(employeeBack.getManager()).isEqualTo(employee);
-
-        employee.setEmployes(new HashSet<>());
-        assertThat(employee.getEmployes()).doesNotContain(employeeBack);
-        assertThat(employeeBack.getManager()).isNull();
+        employee.employe(null);
+        assertThat(employee.getEmploye()).isNull();
     }
 
     @Test

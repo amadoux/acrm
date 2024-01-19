@@ -7,7 +7,7 @@ export interface IEnterprise {
   businessRegisterNumber?: string;
   uniqueIdentificationNumber?: string;
   businessDomicile?: string | null;
-  businessEmail?: string;
+  email?: string;
   businessPhone?: string;
   country?: keyof typeof Pays | null;
   city?: string | null;
