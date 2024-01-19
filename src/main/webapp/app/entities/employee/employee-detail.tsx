@@ -224,9 +224,9 @@ export const EmployeeDetail = () => {
           </dt>
           <dd>{employeeEntity.department ? employeeEntity.department.id : ''}</dd>
           <dt>
-            <Translate contentKey="acrmApp.employee.employe">Employe</Translate>
+            <Translate contentKey="acrmApp.employee.employee">Employee</Translate>
           </dt>
-          <dd>{employeeEntity.employe ? employeeEntity.employe.id : ''}</dd>
+          <dd>{employeeEntity.employee ? employeeEntity.employee.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/employee" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

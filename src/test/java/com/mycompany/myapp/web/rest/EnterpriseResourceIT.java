@@ -9,6 +9,8 @@ import com.mycompany.myapp.IntegrationTest;
 import com.mycompany.myapp.domain.Enterprise;
 import com.mycompany.myapp.domain.enumeration.Pays;
 import com.mycompany.myapp.repository.EnterpriseRepository;
+import com.mycompany.myapp.service.dto.EnterpriseDTO;
+import com.mycompany.myapp.service.mapper.EnterpriseMapper;
 import jakarta.persistence.EntityManager;
 import java.util.Base64;
 import java.util.List;
@@ -43,8 +45,8 @@ class EnterpriseResourceIT {
     private static final String DEFAULT_BUSINESS_DOMICILE = "AAAAAAAAAA";
     private static final String UPDATED_BUSINESS_DOMICILE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_EMAIL = ".{@h%\"xBb.>.";
-    private static final String UPDATED_EMAIL = "*GhcS5@c/X.2G";
+    private static final String DEFAULT_EMAIL = "7{$@Cc2._scMuR";
+    private static final String UPDATED_EMAIL = "HWKAO.@Xi.'f#Kw";
 
     private static final String DEFAULT_BUSINESS_PHONE = "AAAAAAAAAA";
     private static final String UPDATED_BUSINESS_PHONE = "BBBBBBBBBB";
@@ -73,6 +75,9 @@ class EnterpriseResourceIT {
 
     @Autowired
     private EnterpriseRepository enterpriseRepository;
+
+    @Autowired
+    private EnterpriseMapper enterpriseMapper;
 
     @Autowired
     private EntityManager em;
@@ -138,8 +143,9 @@ class EnterpriseResourceIT {
     void createEnterprise() throws Exception {
         int databaseSizeBeforeCreate = enterpriseRepository.findAll().size();
         // Create the Enterprise
+        EnterpriseDTO enterpriseDTO = enterpriseMapper.toDto(enterprise);
         restEnterpriseMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterprise)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterpriseDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Enterprise in the database
@@ -165,12 +171,13 @@ class EnterpriseResourceIT {
     void createEnterpriseWithExistingId() throws Exception {
         // Create the Enterprise with an existing ID
         enterprise.setId(1L);
+        EnterpriseDTO enterpriseDTO = enterpriseMapper.toDto(enterprise);
 
         int databaseSizeBeforeCreate = enterpriseRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restEnterpriseMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterprise)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterpriseDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Enterprise in the database
@@ -186,9 +193,10 @@ class EnterpriseResourceIT {
         enterprise.setCompanyName(null);
 
         // Create the Enterprise, which fails.
+        EnterpriseDTO enterpriseDTO = enterpriseMapper.toDto(enterprise);
 
         restEnterpriseMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterprise)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterpriseDTO)))
             .andExpect(status().isBadRequest());
 
         List<Enterprise> enterpriseList = enterpriseRepository.findAll();
@@ -203,9 +211,10 @@ class EnterpriseResourceIT {
         enterprise.setBusinessRegisterNumber(null);
 
         // Create the Enterprise, which fails.
+        EnterpriseDTO enterpriseDTO = enterpriseMapper.toDto(enterprise);
 
         restEnterpriseMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterprise)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterpriseDTO)))
             .andExpect(status().isBadRequest());
 
         List<Enterprise> enterpriseList = enterpriseRepository.findAll();
@@ -220,9 +229,10 @@ class EnterpriseResourceIT {
         enterprise.setUniqueIdentificationNumber(null);
 
         // Create the Enterprise, which fails.
+        EnterpriseDTO enterpriseDTO = enterpriseMapper.toDto(enterprise);
 
         restEnterpriseMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterprise)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterpriseDTO)))
             .andExpect(status().isBadRequest());
 
         List<Enterprise> enterpriseList = enterpriseRepository.findAll();
@@ -237,9 +247,10 @@ class EnterpriseResourceIT {
         enterprise.setEmail(null);
 
         // Create the Enterprise, which fails.
+        EnterpriseDTO enterpriseDTO = enterpriseMapper.toDto(enterprise);
 
         restEnterpriseMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterprise)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterpriseDTO)))
             .andExpect(status().isBadRequest());
 
         List<Enterprise> enterpriseList = enterpriseRepository.findAll();
@@ -254,9 +265,10 @@ class EnterpriseResourceIT {
         enterprise.setBusinessPhone(null);
 
         // Create the Enterprise, which fails.
+        EnterpriseDTO enterpriseDTO = enterpriseMapper.toDto(enterprise);
 
         restEnterpriseMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterprise)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterpriseDTO)))
             .andExpect(status().isBadRequest());
 
         List<Enterprise> enterpriseList = enterpriseRepository.findAll();
@@ -347,12 +359,13 @@ class EnterpriseResourceIT {
             .businessLogoContentType(UPDATED_BUSINESS_LOGO_CONTENT_TYPE)
             .mapLocator(UPDATED_MAP_LOCATOR)
             .mapLocatorContentType(UPDATED_MAP_LOCATOR_CONTENT_TYPE);
+        EnterpriseDTO enterpriseDTO = enterpriseMapper.toDto(updatedEnterprise);
 
         restEnterpriseMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedEnterprise.getId())
+                put(ENTITY_API_URL_ID, enterpriseDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedEnterprise))
+                    .content(TestUtil.convertObjectToJsonBytes(enterpriseDTO))
             )
             .andExpect(status().isOk());
 
@@ -380,12 +393,15 @@ class EnterpriseResourceIT {
         int databaseSizeBeforeUpdate = enterpriseRepository.findAll().size();
         enterprise.setId(longCount.incrementAndGet());
 
+        // Create the Enterprise
+        EnterpriseDTO enterpriseDTO = enterpriseMapper.toDto(enterprise);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restEnterpriseMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, enterprise.getId())
+                put(ENTITY_API_URL_ID, enterpriseDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(enterprise))
+                    .content(TestUtil.convertObjectToJsonBytes(enterpriseDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -400,12 +416,15 @@ class EnterpriseResourceIT {
         int databaseSizeBeforeUpdate = enterpriseRepository.findAll().size();
         enterprise.setId(longCount.incrementAndGet());
 
+        // Create the Enterprise
+        EnterpriseDTO enterpriseDTO = enterpriseMapper.toDto(enterprise);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restEnterpriseMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(enterprise))
+                    .content(TestUtil.convertObjectToJsonBytes(enterpriseDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -420,9 +439,12 @@ class EnterpriseResourceIT {
         int databaseSizeBeforeUpdate = enterpriseRepository.findAll().size();
         enterprise.setId(longCount.incrementAndGet());
 
+        // Create the Enterprise
+        EnterpriseDTO enterpriseDTO = enterpriseMapper.toDto(enterprise);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restEnterpriseMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterprise)))
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(enterpriseDTO)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Enterprise in the database
@@ -443,13 +465,14 @@ class EnterpriseResourceIT {
         partialUpdatedEnterprise.setId(enterprise.getId());
 
         partialUpdatedEnterprise
-            .companyName(UPDATED_COMPANY_NAME)
-            .businessRegisterNumber(UPDATED_BUSINESS_REGISTER_NUMBER)
             .uniqueIdentificationNumber(UPDATED_UNIQUE_IDENTIFICATION_NUMBER)
             .businessDomicile(UPDATED_BUSINESS_DOMICILE)
             .email(UPDATED_EMAIL)
-            .businessPhone(UPDATED_BUSINESS_PHONE)
-            .city(UPDATED_CITY);
+            .city(UPDATED_CITY)
+            .businessLogo(UPDATED_BUSINESS_LOGO)
+            .businessLogoContentType(UPDATED_BUSINESS_LOGO_CONTENT_TYPE)
+            .mapLocator(UPDATED_MAP_LOCATOR)
+            .mapLocatorContentType(UPDATED_MAP_LOCATOR_CONTENT_TYPE);
 
         restEnterpriseMockMvc
             .perform(
@@ -463,18 +486,18 @@ class EnterpriseResourceIT {
         List<Enterprise> enterpriseList = enterpriseRepository.findAll();
         assertThat(enterpriseList).hasSize(databaseSizeBeforeUpdate);
         Enterprise testEnterprise = enterpriseList.get(enterpriseList.size() - 1);
-        assertThat(testEnterprise.getCompanyName()).isEqualTo(UPDATED_COMPANY_NAME);
-        assertThat(testEnterprise.getBusinessRegisterNumber()).isEqualTo(UPDATED_BUSINESS_REGISTER_NUMBER);
+        assertThat(testEnterprise.getCompanyName()).isEqualTo(DEFAULT_COMPANY_NAME);
+        assertThat(testEnterprise.getBusinessRegisterNumber()).isEqualTo(DEFAULT_BUSINESS_REGISTER_NUMBER);
         assertThat(testEnterprise.getUniqueIdentificationNumber()).isEqualTo(UPDATED_UNIQUE_IDENTIFICATION_NUMBER);
         assertThat(testEnterprise.getBusinessDomicile()).isEqualTo(UPDATED_BUSINESS_DOMICILE);
         assertThat(testEnterprise.getEmail()).isEqualTo(UPDATED_EMAIL);
-        assertThat(testEnterprise.getBusinessPhone()).isEqualTo(UPDATED_BUSINESS_PHONE);
+        assertThat(testEnterprise.getBusinessPhone()).isEqualTo(DEFAULT_BUSINESS_PHONE);
         assertThat(testEnterprise.getCountry()).isEqualTo(DEFAULT_COUNTRY);
         assertThat(testEnterprise.getCity()).isEqualTo(UPDATED_CITY);
-        assertThat(testEnterprise.getBusinessLogo()).isEqualTo(DEFAULT_BUSINESS_LOGO);
-        assertThat(testEnterprise.getBusinessLogoContentType()).isEqualTo(DEFAULT_BUSINESS_LOGO_CONTENT_TYPE);
-        assertThat(testEnterprise.getMapLocator()).isEqualTo(DEFAULT_MAP_LOCATOR);
-        assertThat(testEnterprise.getMapLocatorContentType()).isEqualTo(DEFAULT_MAP_LOCATOR_CONTENT_TYPE);
+        assertThat(testEnterprise.getBusinessLogo()).isEqualTo(UPDATED_BUSINESS_LOGO);
+        assertThat(testEnterprise.getBusinessLogoContentType()).isEqualTo(UPDATED_BUSINESS_LOGO_CONTENT_TYPE);
+        assertThat(testEnterprise.getMapLocator()).isEqualTo(UPDATED_MAP_LOCATOR);
+        assertThat(testEnterprise.getMapLocatorContentType()).isEqualTo(UPDATED_MAP_LOCATOR_CONTENT_TYPE);
     }
 
     @Test
@@ -535,12 +558,15 @@ class EnterpriseResourceIT {
         int databaseSizeBeforeUpdate = enterpriseRepository.findAll().size();
         enterprise.setId(longCount.incrementAndGet());
 
+        // Create the Enterprise
+        EnterpriseDTO enterpriseDTO = enterpriseMapper.toDto(enterprise);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restEnterpriseMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, enterprise.getId())
+                patch(ENTITY_API_URL_ID, enterpriseDTO.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(enterprise))
+                    .content(TestUtil.convertObjectToJsonBytes(enterpriseDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -555,12 +581,15 @@ class EnterpriseResourceIT {
         int databaseSizeBeforeUpdate = enterpriseRepository.findAll().size();
         enterprise.setId(longCount.incrementAndGet());
 
+        // Create the Enterprise
+        EnterpriseDTO enterpriseDTO = enterpriseMapper.toDto(enterprise);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restEnterpriseMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(enterprise))
+                    .content(TestUtil.convertObjectToJsonBytes(enterpriseDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -575,10 +604,13 @@ class EnterpriseResourceIT {
         int databaseSizeBeforeUpdate = enterpriseRepository.findAll().size();
         enterprise.setId(longCount.incrementAndGet());
 
+        // Create the Enterprise
+        EnterpriseDTO enterpriseDTO = enterpriseMapper.toDto(enterprise);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restEnterpriseMockMvc
             .perform(
-                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(enterprise))
+                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(enterpriseDTO))
             )
             .andExpect(status().isMethodNotAllowed());
 

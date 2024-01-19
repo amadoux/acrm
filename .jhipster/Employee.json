@@ -4,6 +4,7 @@
   },
   "applications": "*",
   "documentation": "The Employee entity.",
+  "dto": "mapstruct",
   "entityTableName": "employee",
   "fields": [
     {
@@ -132,45 +133,23 @@
     }
   ],
   "name": "Employee",
-  "pagination": "infinite-scroll",
+  "pagination": "pagination",
   "relationships": [
-    {
-      "otherEntityField": "companyName",
-      "otherEntityName": "enterprise",
-      "otherEntityRelationshipName": "employee",
-      "relationshipName": "enterprise",
-      "relationshipSide": "left",
-      "relationshipType": "one-to-many"
-    },
-    {
-      "otherEntityName": "job",
-      "otherEntityRelationshipName": "employee",
-      "relationshipName": "job",
-      "relationshipSide": "left",
-      "relationshipType": "one-to-many"
-    },
     {
       "otherEntityField": "email",
       "otherEntityName": "employee",
-      "otherEntityRelationshipName": "employe",
       "relationshipName": "manager",
       "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
     {
-      "documentation": "Another side of the same relationship",
-      "otherEntityName": "department",
-      "relationshipName": "department",
-      "relationshipSide": "right",
-      "relationshipType": "many-to-one"
-    },
-    {
-      "otherEntityName": "employee",
-      "otherEntityRelationshipName": "manager",
-      "relationshipName": "employe",
-      "relationshipSide": "right",
-      "relationshipType": "many-to-one"
+      "otherEntityField": "companyName",
+      "otherEntityName": "enterprise",
+      "relationshipName": "enterprise",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
     }
   ],
-  "searchEngine": "no"
+  "searchEngine": "no",
+  "service": "serviceClass"
 }

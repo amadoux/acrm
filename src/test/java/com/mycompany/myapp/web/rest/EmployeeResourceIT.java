@@ -13,6 +13,8 @@ import com.mycompany.myapp.domain.enumeration.Pays;
 import com.mycompany.myapp.domain.enumeration.SalaryType;
 import com.mycompany.myapp.domain.enumeration.TypeEmployed;
 import com.mycompany.myapp.repository.EmployeeRepository;
+import com.mycompany.myapp.service.dto.EmployeeDTO;
+import com.mycompany.myapp.service.mapper.EmployeeMapper;
 import jakarta.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -133,6 +135,9 @@ class EmployeeResourceIT {
     private EmployeeRepository employeeRepository;
 
     @Autowired
+    private EmployeeMapper employeeMapper;
+
+    @Autowired
     private EntityManager em;
 
     @Autowired
@@ -230,8 +235,9 @@ class EmployeeResourceIT {
     void createEmployee() throws Exception {
         int databaseSizeBeforeCreate = employeeRepository.findAll().size();
         // Create the Employee
+        EmployeeDTO employeeDTO = employeeMapper.toDto(employee);
         restEmployeeMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(employee)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(employeeDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Employee in the database
@@ -274,12 +280,13 @@ class EmployeeResourceIT {
     void createEmployeeWithExistingId() throws Exception {
         // Create the Employee with an existing ID
         employee.setId(1L);
+        EmployeeDTO employeeDTO = employeeMapper.toDto(employee);
 
         int databaseSizeBeforeCreate = employeeRepository.findAll().size();
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restEmployeeMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(employee)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(employeeDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Employee in the database
@@ -295,9 +302,10 @@ class EmployeeResourceIT {
         employee.setEmail(null);
 
         // Create the Employee, which fails.
+        EmployeeDTO employeeDTO = employeeMapper.toDto(employee);
 
         restEmployeeMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(employee)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(employeeDTO)))
             .andExpect(status().isBadRequest());
 
         List<Employee> employeeList = employeeRepository.findAll();
@@ -312,9 +320,10 @@ class EmployeeResourceIT {
         employee.setPhoneNumber(null);
 
         // Create the Employee, which fails.
+        EmployeeDTO employeeDTO = employeeMapper.toDto(employee);
 
         restEmployeeMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(employee)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(employeeDTO)))
             .andExpect(status().isBadRequest());
 
         List<Employee> employeeList = employeeRepository.findAll();
@@ -329,9 +338,10 @@ class EmployeeResourceIT {
         employee.setIdentityCard(null);
 
         // Create the Employee, which fails.
+        EmployeeDTO employeeDTO = employeeMapper.toDto(employee);
 
         restEmployeeMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(employee)))
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(employeeDTO)))
             .andExpect(status().isBadRequest());
 
         List<Employee> employeeList = employeeRepository.findAll();
@@ -475,12 +485,13 @@ class EmployeeResourceIT {
             .contractType(UPDATED_CONTRACT_TYPE)
             .salaryType(UPDATED_SALARY_TYPE)
             .hireDate(UPDATED_HIRE_DATE);
+        EmployeeDTO employeeDTO = employeeMapper.toDto(updatedEmployee);
 
         restEmployeeMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, updatedEmployee.getId())
+                put(ENTITY_API_URL_ID, employeeDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(updatedEmployee))
+                    .content(TestUtil.convertObjectToJsonBytes(employeeDTO))
             )
             .andExpect(status().isOk());
 
@@ -525,12 +536,15 @@ class EmployeeResourceIT {
         int databaseSizeBeforeUpdate = employeeRepository.findAll().size();
         employee.setId(longCount.incrementAndGet());
 
+        // Create the Employee
+        EmployeeDTO employeeDTO = employeeMapper.toDto(employee);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restEmployeeMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, employee.getId())
+                put(ENTITY_API_URL_ID, employeeDTO.getId())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(employee))
+                    .content(TestUtil.convertObjectToJsonBytes(employeeDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -545,12 +559,15 @@ class EmployeeResourceIT {
         int databaseSizeBeforeUpdate = employeeRepository.findAll().size();
         employee.setId(longCount.incrementAndGet());
 
+        // Create the Employee
+        EmployeeDTO employeeDTO = employeeMapper.toDto(employee);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restEmployeeMockMvc
             .perform(
                 put(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(TestUtil.convertObjectToJsonBytes(employee))
+                    .content(TestUtil.convertObjectToJsonBytes(employeeDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -565,9 +582,12 @@ class EmployeeResourceIT {
         int databaseSizeBeforeUpdate = employeeRepository.findAll().size();
         employee.setId(longCount.incrementAndGet());
 
+        // Create the Employee
+        EmployeeDTO employeeDTO = employeeMapper.toDto(employee);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restEmployeeMockMvc
-            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(employee)))
+            .perform(put(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(employeeDTO)))
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Employee in the database
@@ -590,16 +610,13 @@ class EmployeeResourceIT {
         partialUpdatedEmployee
             .email(UPDATED_EMAIL)
             .phoneNumber(UPDATED_PHONE_NUMBER)
+            .identityCard(UPDATED_IDENTITY_CARD)
             .dateInspiration(UPDATED_DATE_INSPIRATION)
-            .nationality(UPDATED_NATIONALITY)
-            .address(UPDATED_ADDRESS)
-            .birthPlace(UPDATED_BIRTH_PLACE)
-            .releaseDate(UPDATED_RELEASE_DATE)
-            .workstation(UPDATED_WORKSTATION)
-            .coefficient(UPDATED_COEFFICIENT)
-            .averageHourlyCost(UPDATED_AVERAGE_HOURLY_COST)
+            .typeEmployed(UPDATED_TYPE_EMPLOYED)
+            .birthDate(UPDATED_BIRTH_DATE)
+            .level(UPDATED_LEVEL)
             .contractType(UPDATED_CONTRACT_TYPE)
-            .salaryType(UPDATED_SALARY_TYPE);
+            .hireDate(UPDATED_HIRE_DATE);
 
         restEmployeeMockMvc
             .perform(
@@ -617,31 +634,31 @@ class EmployeeResourceIT {
         assertThat(testEmployee.getLastName()).isEqualTo(DEFAULT_LAST_NAME);
         assertThat(testEmployee.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testEmployee.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
-        assertThat(testEmployee.getIdentityCard()).isEqualTo(DEFAULT_IDENTITY_CARD);
+        assertThat(testEmployee.getIdentityCard()).isEqualTo(UPDATED_IDENTITY_CARD);
         assertThat(testEmployee.getDateInspiration()).isEqualTo(UPDATED_DATE_INSPIRATION);
-        assertThat(testEmployee.getNationality()).isEqualTo(UPDATED_NATIONALITY);
+        assertThat(testEmployee.getNationality()).isEqualTo(DEFAULT_NATIONALITY);
         assertThat(testEmployee.getUploadIdentityCard()).isEqualTo(DEFAULT_UPLOAD_IDENTITY_CARD);
         assertThat(testEmployee.getUploadIdentityCardContentType()).isEqualTo(DEFAULT_UPLOAD_IDENTITY_CARD_CONTENT_TYPE);
-        assertThat(testEmployee.getTypeEmployed()).isEqualTo(DEFAULT_TYPE_EMPLOYED);
+        assertThat(testEmployee.getTypeEmployed()).isEqualTo(UPDATED_TYPE_EMPLOYED);
         assertThat(testEmployee.getCityAgency()).isEqualTo(DEFAULT_CITY_AGENCY);
         assertThat(testEmployee.getResidenceCity()).isEqualTo(DEFAULT_RESIDENCE_CITY);
-        assertThat(testEmployee.getAddress()).isEqualTo(UPDATED_ADDRESS);
+        assertThat(testEmployee.getAddress()).isEqualTo(DEFAULT_ADDRESS);
         assertThat(testEmployee.getSocialSecurityNumber()).isEqualTo(DEFAULT_SOCIAL_SECURITY_NUMBER);
-        assertThat(testEmployee.getBirthDate()).isEqualTo(DEFAULT_BIRTH_DATE);
-        assertThat(testEmployee.getBirthPlace()).isEqualTo(UPDATED_BIRTH_PLACE);
+        assertThat(testEmployee.getBirthDate()).isEqualTo(UPDATED_BIRTH_DATE);
+        assertThat(testEmployee.getBirthPlace()).isEqualTo(DEFAULT_BIRTH_PLACE);
         assertThat(testEmployee.getEntryDate()).isEqualTo(DEFAULT_ENTRY_DATE);
-        assertThat(testEmployee.getReleaseDate()).isEqualTo(UPDATED_RELEASE_DATE);
-        assertThat(testEmployee.getWorkstation()).isEqualTo(UPDATED_WORKSTATION);
+        assertThat(testEmployee.getReleaseDate()).isEqualTo(DEFAULT_RELEASE_DATE);
+        assertThat(testEmployee.getWorkstation()).isEqualTo(DEFAULT_WORKSTATION);
         assertThat(testEmployee.getDescriptionWorkstation()).isEqualTo(DEFAULT_DESCRIPTION_WORKSTATION);
-        assertThat(testEmployee.getLevel()).isEqualTo(DEFAULT_LEVEL);
-        assertThat(testEmployee.getCoefficient()).isEqualTo(UPDATED_COEFFICIENT);
+        assertThat(testEmployee.getLevel()).isEqualTo(UPDATED_LEVEL);
+        assertThat(testEmployee.getCoefficient()).isEqualTo(DEFAULT_COEFFICIENT);
         assertThat(testEmployee.getNumberHours()).isEqualTo(DEFAULT_NUMBER_HOURS);
-        assertThat(testEmployee.getAverageHourlyCost()).isEqualTo(UPDATED_AVERAGE_HOURLY_COST);
+        assertThat(testEmployee.getAverageHourlyCost()).isEqualTo(DEFAULT_AVERAGE_HOURLY_COST);
         assertThat(testEmployee.getMonthlyGrossAmount()).isEqualTo(DEFAULT_MONTHLY_GROSS_AMOUNT);
         assertThat(testEmployee.getCommissionAmount()).isEqualTo(DEFAULT_COMMISSION_AMOUNT);
         assertThat(testEmployee.getContractType()).isEqualTo(UPDATED_CONTRACT_TYPE);
-        assertThat(testEmployee.getSalaryType()).isEqualTo(UPDATED_SALARY_TYPE);
-        assertThat(testEmployee.getHireDate()).isEqualTo(DEFAULT_HIRE_DATE);
+        assertThat(testEmployee.getSalaryType()).isEqualTo(DEFAULT_SALARY_TYPE);
+        assertThat(testEmployee.getHireDate()).isEqualTo(UPDATED_HIRE_DATE);
     }
 
     @Test
@@ -736,12 +753,15 @@ class EmployeeResourceIT {
         int databaseSizeBeforeUpdate = employeeRepository.findAll().size();
         employee.setId(longCount.incrementAndGet());
 
+        // Create the Employee
+        EmployeeDTO employeeDTO = employeeMapper.toDto(employee);
+
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restEmployeeMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, employee.getId())
+                patch(ENTITY_API_URL_ID, employeeDTO.getId())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(employee))
+                    .content(TestUtil.convertObjectToJsonBytes(employeeDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -756,12 +776,15 @@ class EmployeeResourceIT {
         int databaseSizeBeforeUpdate = employeeRepository.findAll().size();
         employee.setId(longCount.incrementAndGet());
 
+        // Create the Employee
+        EmployeeDTO employeeDTO = employeeMapper.toDto(employee);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restEmployeeMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, longCount.incrementAndGet())
                     .contentType("application/merge-patch+json")
-                    .content(TestUtil.convertObjectToJsonBytes(employee))
+                    .content(TestUtil.convertObjectToJsonBytes(employeeDTO))
             )
             .andExpect(status().isBadRequest());
 
@@ -776,9 +799,14 @@ class EmployeeResourceIT {
         int databaseSizeBeforeUpdate = employeeRepository.findAll().size();
         employee.setId(longCount.incrementAndGet());
 
+        // Create the Employee
+        EmployeeDTO employeeDTO = employeeMapper.toDto(employee);
+
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restEmployeeMockMvc
-            .perform(patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(employee)))
+            .perform(
+                patch(ENTITY_API_URL).contentType("application/merge-patch+json").content(TestUtil.convertObjectToJsonBytes(employeeDTO))
+            )
             .andExpect(status().isMethodNotAllowed());
 
         // Validate the Employee in the database

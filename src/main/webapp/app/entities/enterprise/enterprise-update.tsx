@@ -30,7 +30,7 @@ export const EnterpriseUpdate = () => {
   const paysValues = Object.keys(Pays);
 
   const handleClose = () => {
-    navigate('/enterprise');
+    navigate('/enterprise' + location.search);
   };
 
   useEffect(() => {

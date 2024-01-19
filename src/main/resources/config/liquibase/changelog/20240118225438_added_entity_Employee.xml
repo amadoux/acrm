@@ -104,7 +104,7 @@
             <column name="department_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="employe_id" type="bigint">
+            <column name="employee_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->

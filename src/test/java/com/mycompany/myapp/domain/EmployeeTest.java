@@ -5,7 +5,6 @@ import static com.mycompany.myapp.domain.EmployeeTestSamples.*;
 import static com.mycompany.myapp.domain.EmployeeTestSamples.*;
 import static com.mycompany.myapp.domain.EnterpriseTestSamples.*;
 import static com.mycompany.myapp.domain.JobHistoryTestSamples.*;
-import static com.mycompany.myapp.domain.JobTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.mycompany.myapp.web.rest.TestUtil;
@@ -27,6 +26,28 @@ class EmployeeTest {
 
         employee2 = getEmployeeSample2();
         assertThat(employee1).isNotEqualTo(employee2);
+    }
+
+    @Test
+    void managerTest() throws Exception {
+        Employee employee = getEmployeeRandomSampleGenerator();
+        Employee employeeBack = getEmployeeRandomSampleGenerator();
+
+        employee.addManager(employeeBack);
+        assertThat(employee.getManagers()).containsOnly(employeeBack);
+        assertThat(employeeBack.getEmployee()).isEqualTo(employee);
+
+        employee.removeManager(employeeBack);
+        assertThat(employee.getManagers()).doesNotContain(employeeBack);
+        assertThat(employeeBack.getEmployee()).isNull();
+
+        employee.managers(new HashSet<>(Set.of(employeeBack)));
+        assertThat(employee.getManagers()).containsOnly(employeeBack);
+        assertThat(employeeBack.getEmployee()).isEqualTo(employee);
+
+        employee.setManagers(new HashSet<>());
+        assertThat(employee.getManagers()).doesNotContain(employeeBack);
+        assertThat(employeeBack.getEmployee()).isNull();
     }
 
     @Test
@@ -52,50 +73,6 @@ class EmployeeTest {
     }
 
     @Test
-    void jobTest() throws Exception {
-        Employee employee = getEmployeeRandomSampleGenerator();
-        Job jobBack = getJobRandomSampleGenerator();
-
-        employee.addJob(jobBack);
-        assertThat(employee.getJobs()).containsOnly(jobBack);
-        assertThat(jobBack.getEmployee()).isEqualTo(employee);
-
-        employee.removeJob(jobBack);
-        assertThat(employee.getJobs()).doesNotContain(jobBack);
-        assertThat(jobBack.getEmployee()).isNull();
-
-        employee.jobs(new HashSet<>(Set.of(jobBack)));
-        assertThat(employee.getJobs()).containsOnly(jobBack);
-        assertThat(jobBack.getEmployee()).isEqualTo(employee);
-
-        employee.setJobs(new HashSet<>());
-        assertThat(employee.getJobs()).doesNotContain(jobBack);
-        assertThat(jobBack.getEmployee()).isNull();
-    }
-
-    @Test
-    void managerTest() throws Exception {
-        Employee employee = getEmployeeRandomSampleGenerator();
-        Employee employeeBack = getEmployeeRandomSampleGenerator();
-
-        employee.addManager(employeeBack);
-        assertThat(employee.getManagers()).containsOnly(employeeBack);
-        assertThat(employeeBack.getEmploye()).isEqualTo(employee);
-
-        employee.removeManager(employeeBack);
-        assertThat(employee.getManagers()).doesNotContain(employeeBack);
-        assertThat(employeeBack.getEmploye()).isNull();
-
-        employee.managers(new HashSet<>(Set.of(employeeBack)));
-        assertThat(employee.getManagers()).containsOnly(employeeBack);
-        assertThat(employeeBack.getEmploye()).isEqualTo(employee);
-
-        employee.setManagers(new HashSet<>());
-        assertThat(employee.getManagers()).doesNotContain(employeeBack);
-        assertThat(employeeBack.getEmploye()).isNull();
-    }
-
-    @Test
     void departmentTest() throws Exception {
         Employee employee = getEmployeeRandomSampleGenerator();
         Department departmentBack = getDepartmentRandomSampleGenerator();
@@ -108,15 +85,15 @@ class EmployeeTest {
     }
 
     @Test
-    void employeTest() throws Exception {
+    void employeeTest() throws Exception {
         Employee employee = getEmployeeRandomSampleGenerator();
         Employee employeeBack = getEmployeeRandomSampleGenerator();
 
-        employee.setEmploye(employeeBack);
-        assertThat(employee.getEmploye()).isEqualTo(employeeBack);
+        employee.setEmployee(employeeBack);
+        assertThat(employee.getEmployee()).isEqualTo(employeeBack);
 
-        employee.employe(null);
-        assertThat(employee.getEmploye()).isNull();
+        employee.employee(null);
+        assertThat(employee.getEmployee()).isNull();
     }
 
     @Test

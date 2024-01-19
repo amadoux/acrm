@@ -4,6 +4,7 @@
   },
   "applications": "*",
   "documentation": "Entreprise",
+  "dto": "mapstruct",
   "entityTableName": "enterprise",
   "fields": [
     {
@@ -64,15 +65,8 @@
     }
   ],
   "name": "Enterprise",
-  "relationships": [
-    {
-      "otherEntityName": "employee",
-      "otherEntityRelationshipName": "enterprise",
-      "relationshipName": "employee",
-      "relationshipSide": "right",
-      "relationshipType": "many-to-one"
-    }
-  ],
+  "pagination": "pagination",
+  "relationships": [],
   "searchEngine": "no",
   "service": "serviceImpl"
 }
