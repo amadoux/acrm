@@ -1,8 +1,8 @@
 package com.mycompany.myapp.web.rest;
 
-import com.mycompany.myapp.domain.Enterprise;
 import com.mycompany.myapp.repository.EnterpriseRepository;
 import com.mycompany.myapp.service.EnterpriseService;
+import com.mycompany.myapp.service.dto.EnterpriseDTO;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -14,9 +14,14 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -45,17 +50,17 @@ public class EnterpriseResource {
     /**
      * {@code POST  /enterprises} : Create a new enterprise.
      *
-     * @param enterprise the enterprise to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new enterprise, or with status {@code 400 (Bad Request)} if the enterprise has already an ID.
+     * @param enterpriseDTO the enterpriseDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new enterpriseDTO, or with status {@code 400 (Bad Request)} if the enterprise has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    public ResponseEntity<Enterprise> createEnterprise(@Valid @RequestBody Enterprise enterprise) throws URISyntaxException {
-        log.debug("REST request to save Enterprise : {}", enterprise);
-        if (enterprise.getId() != null) {
+    public ResponseEntity<EnterpriseDTO> createEnterprise(@Valid @RequestBody EnterpriseDTO enterpriseDTO) throws URISyntaxException {
+        log.debug("REST request to save Enterprise : {}", enterpriseDTO);
+        if (enterpriseDTO.getId() != null) {
             throw new BadRequestAlertException("A new enterprise cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Enterprise result = enterpriseService.save(enterprise);
+        EnterpriseDTO result = enterpriseService.save(enterpriseDTO);
         return ResponseEntity
             .created(new URI("/api/enterprises/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -65,23 +70,23 @@ public class EnterpriseResource {
     /**
      * {@code PUT  /enterprises/:id} : Updates an existing enterprise.
      *
-     * @param id the id of the enterprise to save.
-     * @param enterprise the enterprise to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated enterprise,
-     * or with status {@code 400 (Bad Request)} if the enterprise is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the enterprise couldn't be updated.
+     * @param id the id of the enterpriseDTO to save.
+     * @param enterpriseDTO the enterpriseDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated enterpriseDTO,
+     * or with status {@code 400 (Bad Request)} if the enterpriseDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the enterpriseDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Enterprise> updateEnterprise(
+    public ResponseEntity<EnterpriseDTO> updateEnterprise(
         @PathVariable(value = "id", required = false) final Long id,
-        @Valid @RequestBody Enterprise enterprise
+        @Valid @RequestBody EnterpriseDTO enterpriseDTO
     ) throws URISyntaxException {
-        log.debug("REST request to update Enterprise : {}, {}", id, enterprise);
-        if (enterprise.getId() == null) {
+        log.debug("REST request to update Enterprise : {}, {}", id, enterpriseDTO);
+        if (enterpriseDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, enterprise.getId())) {
+        if (!Objects.equals(id, enterpriseDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -89,34 +94,34 @@ public class EnterpriseResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Enterprise result = enterpriseService.update(enterprise);
+        EnterpriseDTO result = enterpriseService.update(enterpriseDTO);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, enterprise.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, enterpriseDTO.getId().toString()))
             .body(result);
     }
 
     /**
      * {@code PATCH  /enterprises/:id} : Partial updates given fields of an existing enterprise, field will ignore if it is null
      *
-     * @param id the id of the enterprise to save.
-     * @param enterprise the enterprise to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated enterprise,
-     * or with status {@code 400 (Bad Request)} if the enterprise is not valid,
-     * or with status {@code 404 (Not Found)} if the enterprise is not found,
-     * or with status {@code 500 (Internal Server Error)} if the enterprise couldn't be updated.
+     * @param id the id of the enterpriseDTO to save.
+     * @param enterpriseDTO the enterpriseDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated enterpriseDTO,
+     * or with status {@code 400 (Bad Request)} if the enterpriseDTO is not valid,
+     * or with status {@code 404 (Not Found)} if the enterpriseDTO is not found,
+     * or with status {@code 500 (Internal Server Error)} if the enterpriseDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<Enterprise> partialUpdateEnterprise(
+    public ResponseEntity<EnterpriseDTO> partialUpdateEnterprise(
         @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody Enterprise enterprise
+        @NotNull @RequestBody EnterpriseDTO enterpriseDTO
     ) throws URISyntaxException {
-        log.debug("REST request to partial update Enterprise partially : {}, {}", id, enterprise);
-        if (enterprise.getId() == null) {
+        log.debug("REST request to partial update Enterprise partially : {}, {}", id, enterpriseDTO);
+        if (enterpriseDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!Objects.equals(id, enterprise.getId())) {
+        if (!Objects.equals(id, enterpriseDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
 
@@ -124,42 +129,45 @@ public class EnterpriseResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<Enterprise> result = enterpriseService.partialUpdate(enterprise);
+        Optional<EnterpriseDTO> result = enterpriseService.partialUpdate(enterpriseDTO);
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, enterprise.getId().toString())
+            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, enterpriseDTO.getId().toString())
         );
     }
 
     /**
      * {@code GET  /enterprises} : get all the enterprises.
      *
+     * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of enterprises in body.
      */
     @GetMapping("")
-    public List<Enterprise> getAllEnterprises() {
-        log.debug("REST request to get all Enterprises");
-        return enterpriseService.findAll();
+    public ResponseEntity<List<EnterpriseDTO>> getAllEnterprises(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
+        log.debug("REST request to get a page of Enterprises");
+        Page<EnterpriseDTO> page = enterpriseService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
     /**
      * {@code GET  /enterprises/:id} : get the "id" enterprise.
      *
-     * @param id the id of the enterprise to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the enterprise, or with status {@code 404 (Not Found)}.
+     * @param id the id of the enterpriseDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the enterpriseDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Enterprise> getEnterprise(@PathVariable("id") Long id) {
+    public ResponseEntity<EnterpriseDTO> getEnterprise(@PathVariable("id") Long id) {
         log.debug("REST request to get Enterprise : {}", id);
-        Optional<Enterprise> enterprise = enterpriseService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(enterprise);
+        Optional<EnterpriseDTO> enterpriseDTO = enterpriseService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(enterpriseDTO);
     }
 
     /**
      * {@code DELETE  /enterprises/:id} : delete the "id" enterprise.
      *
-     * @param id the id of the enterprise to delete.
+     * @param id the id of the enterpriseDTO to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")

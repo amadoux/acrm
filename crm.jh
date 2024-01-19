@@ -1,33 +1,5 @@
 
-entity Region {
-	regionName String
-}
 
-entity Country {
-	countryName String
-}
-
-// an ignored comment
-/** not an ignored comment */
-entity Location {
-	streetAddress String
-	postalCode String
-	city String
-	stateProvince String
-}
-
-entity Department {
-	departmentName String required
-}
-
-/**
- * Task entity.
- * @author The JHipster team.
- */
-entity Task {
-	title String
-	description String
-}
 /** Entreprise */
 
 entity Enterprise {
@@ -89,21 +61,7 @@ entity Employee {
     
 }
 
-entity Job {
-	jobTitle String
-	minSalary Long
-	maxSalary Long
-}
 
-entity JobHistory {
-	startDate Instant
-	endDate Instant
-	language Language
-}
-
-enum Language {
-    FRENCH, ENGLISH, SPANISH
-}
 enum Pays {
     CAMEROON , SENEGAL, COTE_IVOIRE, MALI
 }
@@ -119,57 +77,29 @@ enum Level {
 enum SalaryType {
     EXECUTIVE_SALARIED, ASSOCIATE, NON_EXECUTIVE_SALARIED
 }
-relationship OneToOne {
-	Country{region} to Region
-}
 
-relationship OneToOne {
-	Location{country} to Country
-}
-
-relationship OneToOne {
-	Department{location} to Location
-}
-relationship OneToMany {
-	Employee{enterprise(companyName)} to Enterprise{employee}
-}
-relationship ManyToMany {
-	Job{task(title)} to Task{job}
-}
 
 // defining multiple OneToMany relationships with comments
 relationship OneToMany {
-	Employee to Job{employee}
-	/**
-	* A relationship
-	*/
-	Department to
-	/**
-	* Another side of the same relationship
-	*/
-	Employee{department}
+	
+    Employee{manager(email)} to Employee
+    Employee{enterprise(companyName)} to Enterprise
 }
 
-relationship OneToMany {
-	Employee{manager(email)} to Employee{employe}
-}
 
-// defining multiple oneToOne relationships
-relationship OneToOne {
-	JobHistory{job} to Job
-	JobHistory{department} to Department
-	JobHistory{employee} to Employee
-}
+
+
+
 
 // Set pagination options
-paginate JobHistory, Employee with infinite-scroll
-paginate Job with pagination
+paginate Employee with infinite-scroll
+paginate * with pagination
 
 // Use Data Transfer Objects (DTO)
-// dto * with mapstruct
+ dto * with mapstruct
 
 // Set service options to all except few
-service all with serviceImpl except Employee, Job
+service all with serviceImpl except Employee
 
 // Set an angular suffix
 // angularSuffix * with mySuffix

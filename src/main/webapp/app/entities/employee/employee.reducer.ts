@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { createAsyncThunk, isFulfilled, isPending } from '@reduxjs/toolkit';
-import { loadMoreDataWhenScrolled, parseHeaderForLinks } from 'react-jhipster';
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { IQueryParams, createEntitySlice, EntityState, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
 import { IEmployee, defaultValue } from 'app/shared/model/employee.model';
@@ -10,7 +9,6 @@ const initialState: EntityState<IEmployee> = {
   errorMessage: null,
   entities: [],
   entity: defaultValue,
-  links: { next: 0 },
   updating: false,
   totalItems: 0,
   updateSuccess: false,
@@ -37,7 +35,9 @@ export const getEntity = createAsyncThunk(
 export const createEntity = createAsyncThunk(
   'employee/create_entity',
   async (entity: IEmployee, thunkAPI) => {
-    return axios.post<IEmployee>(apiUrl, cleanEntity(entity));
+    const result = await axios.post<IEmployee>(apiUrl, cleanEntity(entity));
+    thunkAPI.dispatch(getEntities({}));
+    return result;
   },
   { serializeError: serializeAxiosError },
 );
@@ -45,7 +45,9 @@ export const createEntity = createAsyncThunk(
 export const updateEntity = createAsyncThunk(
   'employee/update_entity',
   async (entity: IEmployee, thunkAPI) => {
-    return axios.put<IEmployee>(`${apiUrl}/${entity.id}`, cleanEntity(entity));
+    const result = await axios.put<IEmployee>(`${apiUrl}/${entity.id}`, cleanEntity(entity));
+    thunkAPI.dispatch(getEntities({}));
+    return result;
   },
   { serializeError: serializeAxiosError },
 );
@@ -53,7 +55,9 @@ export const updateEntity = createAsyncThunk(
 export const partialUpdateEntity = createAsyncThunk(
   'employee/partial_update_entity',
   async (entity: IEmployee, thunkAPI) => {
-    return axios.patch<IEmployee>(`${apiUrl}/${entity.id}`, cleanEntity(entity));
+    const result = await axios.patch<IEmployee>(`${apiUrl}/${entity.id}`, cleanEntity(entity));
+    thunkAPI.dispatch(getEntities({}));
+    return result;
   },
   { serializeError: serializeAxiosError },
 );
@@ -62,7 +66,9 @@ export const deleteEntity = createAsyncThunk(
   'employee/delete_entity',
   async (id: string | number, thunkAPI) => {
     const requestUrl = `${apiUrl}/${id}`;
-    return await axios.delete<IEmployee>(requestUrl);
+    const result = await axios.delete<IEmployee>(requestUrl);
+    thunkAPI.dispatch(getEntities({}));
+    return result;
   },
   { serializeError: serializeAxiosError },
 );
@@ -85,13 +91,11 @@ export const EmployeeSlice = createEntitySlice({
       })
       .addMatcher(isFulfilled(getEntities), (state, action) => {
         const { data, headers } = action.payload;
-        const links = parseHeaderForLinks(headers.link);
 
         return {
           ...state,
           loading: false,
-          links,
-          entities: loadMoreDataWhenScrolled(state.entities, data, links),
+          entities: data,
           totalItems: parseInt(headers['x-total-count'], 10),
         };
       })
