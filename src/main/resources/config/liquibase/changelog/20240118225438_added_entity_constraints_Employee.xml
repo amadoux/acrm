@@ -8,25 +8,18 @@
     -->
     <changeSet id="20240118225438-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="enterprise_id"
-                                 baseTableName="employee"
-                                 constraintName="fk_employee__enterprise_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="enterprise"
-                                 />
-
-        <addForeignKeyConstraint baseColumnNames="manager_id"
-                                 baseTableName="employee"
-                                 constraintName="fk_employee__manager_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="employee"
-                                 />
-
         <addForeignKeyConstraint baseColumnNames="department_id"
                                  baseTableName="employee"
                                  constraintName="fk_employee__department_id"
                                  referencedColumnNames="id"
                                  referencedTableName="department"
+                                 />
+
+        <addForeignKeyConstraint baseColumnNames="employe_id"
+                                 baseTableName="employee"
+                                 constraintName="fk_employee__employe_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="employee"
                                  />
     </changeSet>
 </databaseChangeLog>

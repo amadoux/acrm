@@ -8,8 +8,6 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { IEnterprise } from 'app/shared/model/enterprise.model';
-import { getEntities as getEnterprises } from 'app/entities/enterprise/enterprise.reducer';
 import { getEntities as getEmployees } from 'app/entities/employee/employee.reducer';
 import { IDepartment } from 'app/shared/model/department.model';
 import { getEntities as getDepartments } from 'app/entities/department/department.reducer';
@@ -31,7 +29,6 @@ export const EmployeeUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
-  const enterprises = useAppSelector(state => state.enterprise.entities);
   const employees = useAppSelector(state => state.employee.entities);
   const departments = useAppSelector(state => state.department.entities);
   const jobHistories = useAppSelector(state => state.jobHistory.entities);
@@ -54,7 +51,6 @@ export const EmployeeUpdate = () => {
       dispatch(getEntity(id));
     }
 
-    dispatch(getEnterprises({}));
     dispatch(getEmployees({}));
     dispatch(getDepartments({}));
     dispatch(getJobHistories({}));
@@ -89,8 +85,7 @@ export const EmployeeUpdate = () => {
     const entity = {
       ...employeeEntity,
       ...values,
-      enterprise: enterprises.find(it => it.id.toString() === values.enterprise.toString()),
-      manager: employees.find(it => it.id.toString() === values.manager.toString()),
+      employe: employees.find(it => it.id.toString() === values.employe.toString()),
       department: departments.find(it => it.id.toString() === values.department.toString()),
     };
 
@@ -122,9 +117,8 @@ export const EmployeeUpdate = () => {
           entryDate: convertDateTimeFromServer(employeeEntity.entryDate),
           releaseDate: convertDateTimeFromServer(employeeEntity.releaseDate),
           hireDate: convertDateTimeFromServer(employeeEntity.hireDate),
-          enterprise: employeeEntity?.enterprise?.id,
-          manager: employeeEntity?.manager?.id,
           department: employeeEntity?.department?.id,
+          employe: employeeEntity?.employe?.id,
         };
 
   return (
@@ -388,38 +382,6 @@ export const EmployeeUpdate = () => {
                 placeholder="YYYY-MM-DD HH:mm"
               />
               <ValidatedField
-                id="employee-enterprise"
-                name="enterprise"
-                data-cy="enterprise"
-                label={translate('acrmApp.employee.enterprise')}
-                type="select"
-              >
-                <option value="" key="0" />
-                {enterprises
-                  ? enterprises.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.compagnyName}
-                      </option>
-                    ))
-                  : null}
-              </ValidatedField>
-              <ValidatedField
-                id="employee-manager"
-                name="manager"
-                data-cy="manager"
-                label={translate('acrmApp.employee.manager')}
-                type="select"
-              >
-                <option value="" key="0" />
-                {employees
-                  ? employees.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.email}
-                      </option>
-                    ))
-                  : null}
-              </ValidatedField>
-              <ValidatedField
                 id="employee-department"
                 name="department"
                 data-cy="department"
@@ -429,6 +391,22 @@ export const EmployeeUpdate = () => {
                 <option value="" key="0" />
                 {departments
                   ? departments.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <ValidatedField
+                id="employee-employe"
+                name="employe"
+                data-cy="employe"
+                label={translate('acrmApp.employee.employe')}
+                type="select"
+              >
+                <option value="" key="0" />
+                {employees
+                  ? employees.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.id}
                       </option>

@@ -103,9 +103,9 @@ export const Enterprise = () => {
                   <Translate contentKey="acrmApp.enterprise.businessDomicile">Business Domicile</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('businessDomicile')} />
                 </th>
-                <th className="hand" onClick={sort('businessEmail')}>
-                  <Translate contentKey="acrmApp.enterprise.businessEmail">Business Email</Translate>{' '}
-                  <FontAwesomeIcon icon={getSortIconByFieldName('businessEmail')} />
+                <th className="hand" onClick={sort('email')}>
+                  <Translate contentKey="acrmApp.enterprise.email">Email</Translate>{' '}
+                  <FontAwesomeIcon icon={getSortIconByFieldName('email')} />
                 </th>
                 <th className="hand" onClick={sort('businessPhone')}>
                   <Translate contentKey="acrmApp.enterprise.businessPhone">Business Phone</Translate>{' '}
@@ -126,6 +126,9 @@ export const Enterprise = () => {
                   <Translate contentKey="acrmApp.enterprise.mapLocator">Map Locator</Translate>{' '}
                   <FontAwesomeIcon icon={getSortIconByFieldName('mapLocator')} />
                 </th>
+                <th>
+                  <Translate contentKey="acrmApp.enterprise.employee">Employee</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -141,7 +144,7 @@ export const Enterprise = () => {
                   <td>{enterprise.businessRegisterNumber}</td>
                   <td>{enterprise.uniqueIdentificationNumber}</td>
                   <td>{enterprise.businessDomicile}</td>
-                  <td>{enterprise.businessEmail}</td>
+                  <td>{enterprise.email}</td>
                   <td>{enterprise.businessPhone}</td>
                   <td>
                     <Translate contentKey={`acrmApp.Pays.${enterprise.country}`} />
@@ -183,6 +186,7 @@ export const Enterprise = () => {
                       </div>
                     ) : null}
                   </td>
+                  <td>{enterprise.employee ? <Link to={`/employee/${enterprise.employee.id}`}>{enterprise.employee.id}</Link> : ''}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/enterprise/${enterprise.id}`} color="info" size="sm" data-cy="entityDetailsButton">

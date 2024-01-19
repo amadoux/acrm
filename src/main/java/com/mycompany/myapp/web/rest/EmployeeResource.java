@@ -234,15 +234,13 @@ public class EmployeeResource {
      * {@code GET  /employees} : get all the employees.
      *
      * @param pageable the pagination information.
-     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of employees in body.
      */
     @GetMapping("")
     public ResponseEntity<List<Employee>> getAllEmployees(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
-        @RequestParam(name = "filter", required = false) String filter,
-        @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
+        @RequestParam(name = "filter", required = false) String filter
     ) {
         if ("jobhistory-is-null".equals(filter)) {
             log.debug("REST request to get all Employees where jobHistory is null");
@@ -255,12 +253,7 @@ public class EmployeeResource {
             );
         }
         log.debug("REST request to get a page of Employees");
-        Page<Employee> page;
-        if (eagerload) {
-            page = employeeRepository.findAllWithEagerRelationships(pageable);
-        } else {
-            page = employeeRepository.findAll(pageable);
-        }
+        Page<Employee> page = employeeRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
@@ -274,7 +267,7 @@ public class EmployeeResource {
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getEmployee(@PathVariable("id") Long id) {
         log.debug("REST request to get Employee : {}", id);
-        Optional<Employee> employee = employeeRepository.findOneWithEagerRelationships(id);
+        Optional<Employee> employee = employeeRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(employee);
     }
 

@@ -58,6 +58,7 @@ export const EnterpriseUpdate = () => {
     const entity = {
       ...enterpriseEntity,
       ...values,
+      employee: employees.find(it => it.id.toString() === values.employee.toString()),
     };
 
     if (isNew) {
@@ -73,6 +74,7 @@ export const EnterpriseUpdate = () => {
       : {
           country: 'CAMEROON',
           ...enterpriseEntity,
+          employee: enterpriseEntity?.employee?.id,
         };
 
   return (
@@ -141,10 +143,10 @@ export const EnterpriseUpdate = () => {
                 type="text"
               />
               <ValidatedField
-                label={translate('acrmApp.enterprise.businessEmail')}
-                id="enterprise-businessEmail"
-                name="businessEmail"
-                data-cy="businessEmail"
+                label={translate('acrmApp.enterprise.email')}
+                id="enterprise-email"
+                name="email"
+                data-cy="email"
                 type="text"
                 validate={{
                   required: { value: true, message: translate('entity.validation.required') },
@@ -196,6 +198,22 @@ export const EnterpriseUpdate = () => {
                 accept="image/*"
                 validate={{}}
               />
+              <ValidatedField
+                id="enterprise-employee"
+                name="employee"
+                data-cy="employee"
+                label={translate('acrmApp.enterprise.employee')}
+                type="select"
+              >
+                <option value="" key="0" />
+                {employees
+                  ? employees.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/enterprise" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

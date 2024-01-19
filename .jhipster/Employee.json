@@ -135,12 +135,12 @@
   "pagination": "infinite-scroll",
   "relationships": [
     {
-      "otherEntityField": "compagnyName",
+      "otherEntityField": "companyName",
       "otherEntityName": "enterprise",
       "otherEntityRelationshipName": "employee",
       "relationshipName": "enterprise",
       "relationshipSide": "left",
-      "relationshipType": "one-to-one"
+      "relationshipType": "one-to-many"
     },
     {
       "otherEntityName": "job",
@@ -155,7 +155,7 @@
       "otherEntityRelationshipName": "employe",
       "relationshipName": "manager",
       "relationshipSide": "left",
-      "relationshipType": "many-to-one"
+      "relationshipType": "one-to-many"
     },
     {
       "documentation": "Another side of the same relationship",
@@ -169,7 +169,7 @@
       "otherEntityRelationshipName": "manager",
       "relationshipName": "employe",
       "relationshipSide": "right",
-      "relationshipType": "one-to-many"
+      "relationshipType": "many-to-one"
     }
   ],
   "searchEngine": "no"

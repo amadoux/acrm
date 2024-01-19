@@ -16,7 +16,7 @@ public class EnterpriseTestSamples {
             .businessRegisterNumber("businessRegisterNumber1")
             .uniqueIdentificationNumber("uniqueIdentificationNumber1")
             .businessDomicile("businessDomicile1")
-            .businessEmail("businessEmail1")
+            .email("email1")
             .businessPhone("businessPhone1")
             .city("city1");
     }
@@ -28,7 +28,7 @@ public class EnterpriseTestSamples {
             .businessRegisterNumber("businessRegisterNumber2")
             .uniqueIdentificationNumber("uniqueIdentificationNumber2")
             .businessDomicile("businessDomicile2")
-            .businessEmail("businessEmail2")
+            .email("email2")
             .businessPhone("businessPhone2")
             .city("city2");
     }
@@ -40,7 +40,7 @@ public class EnterpriseTestSamples {
             .businessRegisterNumber(UUID.randomUUID().toString())
             .uniqueIdentificationNumber(UUID.randomUUID().toString())
             .businessDomicile(UUID.randomUUID().toString())
-            .businessEmail(UUID.randomUUID().toString())
+            .email(UUID.randomUUID().toString())
             .businessPhone(UUID.randomUUID().toString())
             .city(UUID.randomUUID().toString());
     }

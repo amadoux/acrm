@@ -43,8 +43,8 @@ class EnterpriseResourceIT {
     private static final String DEFAULT_BUSINESS_DOMICILE = "AAAAAAAAAA";
     private static final String UPDATED_BUSINESS_DOMICILE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BUSINESS_EMAIL = ".{@h%\"xBb.>.";
-    private static final String UPDATED_BUSINESS_EMAIL = "*GhcS5@c/X.2G";
+    private static final String DEFAULT_EMAIL = ".{@h%\"xBb.>.";
+    private static final String UPDATED_EMAIL = "*GhcS5@c/X.2G";
 
     private static final String DEFAULT_BUSINESS_PHONE = "AAAAAAAAAA";
     private static final String UPDATED_BUSINESS_PHONE = "BBBBBBBBBB";
@@ -94,7 +94,7 @@ class EnterpriseResourceIT {
             .businessRegisterNumber(DEFAULT_BUSINESS_REGISTER_NUMBER)
             .uniqueIdentificationNumber(DEFAULT_UNIQUE_IDENTIFICATION_NUMBER)
             .businessDomicile(DEFAULT_BUSINESS_DOMICILE)
-            .businessEmail(DEFAULT_BUSINESS_EMAIL)
+            .email(DEFAULT_EMAIL)
             .businessPhone(DEFAULT_BUSINESS_PHONE)
             .country(DEFAULT_COUNTRY)
             .city(DEFAULT_CITY)
@@ -117,7 +117,7 @@ class EnterpriseResourceIT {
             .businessRegisterNumber(UPDATED_BUSINESS_REGISTER_NUMBER)
             .uniqueIdentificationNumber(UPDATED_UNIQUE_IDENTIFICATION_NUMBER)
             .businessDomicile(UPDATED_BUSINESS_DOMICILE)
-            .businessEmail(UPDATED_BUSINESS_EMAIL)
+            .email(UPDATED_EMAIL)
             .businessPhone(UPDATED_BUSINESS_PHONE)
             .country(UPDATED_COUNTRY)
             .city(UPDATED_CITY)
@@ -150,7 +150,7 @@ class EnterpriseResourceIT {
         assertThat(testEnterprise.getBusinessRegisterNumber()).isEqualTo(DEFAULT_BUSINESS_REGISTER_NUMBER);
         assertThat(testEnterprise.getUniqueIdentificationNumber()).isEqualTo(DEFAULT_UNIQUE_IDENTIFICATION_NUMBER);
         assertThat(testEnterprise.getBusinessDomicile()).isEqualTo(DEFAULT_BUSINESS_DOMICILE);
-        assertThat(testEnterprise.getBusinessEmail()).isEqualTo(DEFAULT_BUSINESS_EMAIL);
+        assertThat(testEnterprise.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testEnterprise.getBusinessPhone()).isEqualTo(DEFAULT_BUSINESS_PHONE);
         assertThat(testEnterprise.getCountry()).isEqualTo(DEFAULT_COUNTRY);
         assertThat(testEnterprise.getCity()).isEqualTo(DEFAULT_CITY);
@@ -231,10 +231,10 @@ class EnterpriseResourceIT {
 
     @Test
     @Transactional
-    void checkBusinessEmailIsRequired() throws Exception {
+    void checkEmailIsRequired() throws Exception {
         int databaseSizeBeforeTest = enterpriseRepository.findAll().size();
         // set the field null
-        enterprise.setBusinessEmail(null);
+        enterprise.setEmail(null);
 
         // Create the Enterprise, which fails.
 
@@ -279,7 +279,7 @@ class EnterpriseResourceIT {
             .andExpect(jsonPath("$.[*].businessRegisterNumber").value(hasItem(DEFAULT_BUSINESS_REGISTER_NUMBER)))
             .andExpect(jsonPath("$.[*].uniqueIdentificationNumber").value(hasItem(DEFAULT_UNIQUE_IDENTIFICATION_NUMBER)))
             .andExpect(jsonPath("$.[*].businessDomicile").value(hasItem(DEFAULT_BUSINESS_DOMICILE)))
-            .andExpect(jsonPath("$.[*].businessEmail").value(hasItem(DEFAULT_BUSINESS_EMAIL)))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
             .andExpect(jsonPath("$.[*].businessPhone").value(hasItem(DEFAULT_BUSINESS_PHONE)))
             .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY.toString())))
             .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
@@ -305,7 +305,7 @@ class EnterpriseResourceIT {
             .andExpect(jsonPath("$.businessRegisterNumber").value(DEFAULT_BUSINESS_REGISTER_NUMBER))
             .andExpect(jsonPath("$.uniqueIdentificationNumber").value(DEFAULT_UNIQUE_IDENTIFICATION_NUMBER))
             .andExpect(jsonPath("$.businessDomicile").value(DEFAULT_BUSINESS_DOMICILE))
-            .andExpect(jsonPath("$.businessEmail").value(DEFAULT_BUSINESS_EMAIL))
+            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
             .andExpect(jsonPath("$.businessPhone").value(DEFAULT_BUSINESS_PHONE))
             .andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY.toString()))
             .andExpect(jsonPath("$.city").value(DEFAULT_CITY))
@@ -339,7 +339,7 @@ class EnterpriseResourceIT {
             .businessRegisterNumber(UPDATED_BUSINESS_REGISTER_NUMBER)
             .uniqueIdentificationNumber(UPDATED_UNIQUE_IDENTIFICATION_NUMBER)
             .businessDomicile(UPDATED_BUSINESS_DOMICILE)
-            .businessEmail(UPDATED_BUSINESS_EMAIL)
+            .email(UPDATED_EMAIL)
             .businessPhone(UPDATED_BUSINESS_PHONE)
             .country(UPDATED_COUNTRY)
             .city(UPDATED_CITY)
@@ -364,7 +364,7 @@ class EnterpriseResourceIT {
         assertThat(testEnterprise.getBusinessRegisterNumber()).isEqualTo(UPDATED_BUSINESS_REGISTER_NUMBER);
         assertThat(testEnterprise.getUniqueIdentificationNumber()).isEqualTo(UPDATED_UNIQUE_IDENTIFICATION_NUMBER);
         assertThat(testEnterprise.getBusinessDomicile()).isEqualTo(UPDATED_BUSINESS_DOMICILE);
-        assertThat(testEnterprise.getBusinessEmail()).isEqualTo(UPDATED_BUSINESS_EMAIL);
+        assertThat(testEnterprise.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testEnterprise.getBusinessPhone()).isEqualTo(UPDATED_BUSINESS_PHONE);
         assertThat(testEnterprise.getCountry()).isEqualTo(UPDATED_COUNTRY);
         assertThat(testEnterprise.getCity()).isEqualTo(UPDATED_CITY);
@@ -447,7 +447,7 @@ class EnterpriseResourceIT {
             .businessRegisterNumber(UPDATED_BUSINESS_REGISTER_NUMBER)
             .uniqueIdentificationNumber(UPDATED_UNIQUE_IDENTIFICATION_NUMBER)
             .businessDomicile(UPDATED_BUSINESS_DOMICILE)
-            .businessEmail(UPDATED_BUSINESS_EMAIL)
+            .email(UPDATED_EMAIL)
             .businessPhone(UPDATED_BUSINESS_PHONE)
             .city(UPDATED_CITY);
 
@@ -467,7 +467,7 @@ class EnterpriseResourceIT {
         assertThat(testEnterprise.getBusinessRegisterNumber()).isEqualTo(UPDATED_BUSINESS_REGISTER_NUMBER);
         assertThat(testEnterprise.getUniqueIdentificationNumber()).isEqualTo(UPDATED_UNIQUE_IDENTIFICATION_NUMBER);
         assertThat(testEnterprise.getBusinessDomicile()).isEqualTo(UPDATED_BUSINESS_DOMICILE);
-        assertThat(testEnterprise.getBusinessEmail()).isEqualTo(UPDATED_BUSINESS_EMAIL);
+        assertThat(testEnterprise.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testEnterprise.getBusinessPhone()).isEqualTo(UPDATED_BUSINESS_PHONE);
         assertThat(testEnterprise.getCountry()).isEqualTo(DEFAULT_COUNTRY);
         assertThat(testEnterprise.getCity()).isEqualTo(UPDATED_CITY);
@@ -494,7 +494,7 @@ class EnterpriseResourceIT {
             .businessRegisterNumber(UPDATED_BUSINESS_REGISTER_NUMBER)
             .uniqueIdentificationNumber(UPDATED_UNIQUE_IDENTIFICATION_NUMBER)
             .businessDomicile(UPDATED_BUSINESS_DOMICILE)
-            .businessEmail(UPDATED_BUSINESS_EMAIL)
+            .email(UPDATED_EMAIL)
             .businessPhone(UPDATED_BUSINESS_PHONE)
             .country(UPDATED_COUNTRY)
             .city(UPDATED_CITY)
@@ -519,7 +519,7 @@ class EnterpriseResourceIT {
         assertThat(testEnterprise.getBusinessRegisterNumber()).isEqualTo(UPDATED_BUSINESS_REGISTER_NUMBER);
         assertThat(testEnterprise.getUniqueIdentificationNumber()).isEqualTo(UPDATED_UNIQUE_IDENTIFICATION_NUMBER);
         assertThat(testEnterprise.getBusinessDomicile()).isEqualTo(UPDATED_BUSINESS_DOMICILE);
-        assertThat(testEnterprise.getBusinessEmail()).isEqualTo(UPDATED_BUSINESS_EMAIL);
+        assertThat(testEnterprise.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testEnterprise.getBusinessPhone()).isEqualTo(UPDATED_BUSINESS_PHONE);
         assertThat(testEnterprise.getCountry()).isEqualTo(UPDATED_COUNTRY);
         assertThat(testEnterprise.getCity()).isEqualTo(UPDATED_CITY);

@@ -40,11 +40,11 @@ export interface IEmployee {
   contractType?: keyof typeof ContractType | null;
   salaryType?: keyof typeof SalaryType | null;
   hireDate?: dayjs.Dayjs | null;
-  enterprise?: IEnterprise | null;
+  enterprises?: IEnterprise[] | null;
   jobs?: IJob[] | null;
-  manager?: IEmployee | null;
+  managers?: IEmployee[] | null;
   department?: IDepartment | null;
-  employes?: IEmployee[] | null;
+  employe?: IEmployee | null;
   jobHistory?: IJobHistory | null;
 }
 

@@ -135,15 +135,10 @@ public class EnterpriseResource {
     /**
      * {@code GET  /enterprises} : get all the enterprises.
      *
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of enterprises in body.
      */
     @GetMapping("")
-    public List<Enterprise> getAllEnterprises(@RequestParam(name = "filter", required = false) String filter) {
-        if ("employee-is-null".equals(filter)) {
-            log.debug("REST request to get all Enterprises where employee is null");
-            return enterpriseService.findAllWhereEmployeeIsNull();
-        }
+    public List<Enterprise> getAllEnterprises() {
         log.debug("REST request to get all Enterprises");
         return enterpriseService.findAll();
     }

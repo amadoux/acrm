@@ -26,7 +26,7 @@
             <column name="business_domicile" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="business_email" type="varchar(255)">
+            <column name="email" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
             <column name="business_phone" type="varchar(255)">
@@ -48,6 +48,9 @@
                 <constraints nullable="true" />
             </column>
             <column name="map_locator_content_type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="employee_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -75,7 +78,7 @@
             <column name="business_register_number" type="string"/>
             <column name="unique_identification_number" type="string"/>
             <column name="business_domicile" type="string"/>
-            <column name="business_email" type="string"/>
+            <column name="email" type="string"/>
             <column name="business_phone" type="string"/>
             <column name="country" type="string"/>
             <column name="city" type="string"/>
