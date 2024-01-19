@@ -77,7 +77,7 @@ public class Enterprise implements Serializable {
     private String mapLocatorContentType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "enterprises", "jobs", "managers", "department", "employe", "jobHistory" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "jobs", "managers", "enterprises", "department", "employee", "jobHistory" }, allowSetters = true)
     private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

@@ -46,11 +46,11 @@
       "contractType": "Contract Type",
       "salaryType": "Salary Type",
       "hireDate": "Hire Date",
-      "enterprise": "Enterprise",
       "job": "Job",
       "manager": "Manager",
+      "enterprise": "Enterprise",
       "department": "Department",
-      "employe": "Employe",
+      "employee": "Employee",
       "jobHistory": "Job History"
     }
   }

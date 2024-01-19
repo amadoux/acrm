@@ -45,7 +45,7 @@ public class JobHistory implements Serializable {
     @JoinColumn(unique = true)
     private Department department;
 
-    @JsonIgnoreProperties(value = { "enterprises", "jobs", "managers", "department", "employe", "jobHistory" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "jobs", "managers", "enterprises", "department", "employee", "jobHistory" }, allowSetters = true)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(unique = true)
     private Employee employee;

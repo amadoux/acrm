@@ -247,7 +247,7 @@ export const Employee = () => {
                     <Translate contentKey="acrmApp.employee.department">Department</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="acrmApp.employee.employe">Employe</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="acrmApp.employee.employee">Employee</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -319,7 +319,7 @@ export const Employee = () => {
                     </td>
                     <td>{employee.hireDate ? <TextFormat type="date" value={employee.hireDate} format={APP_DATE_FORMAT} /> : null}</td>
                     <td>{employee.department ? <Link to={`/department/${employee.department.id}`}>{employee.department.id}</Link> : ''}</td>
-                    <td>{employee.employe ? <Link to={`/employee/${employee.employe.id}`}>{employee.employe.id}</Link> : ''}</td>
+                    <td>{employee.employee ? <Link to={`/employee/${employee.employee.id}`}>{employee.employee.id}</Link> : ''}</td>
                     <td className="text-end">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`/employee/${employee.id}`} color="info" size="sm" data-cy="entityDetailsButton">

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
-import { IEnterprise } from 'app/shared/model/enterprise.model';
 import { IJob } from 'app/shared/model/job.model';
+import { IEnterprise } from 'app/shared/model/enterprise.model';
 import { IDepartment } from 'app/shared/model/department.model';
 import { IJobHistory } from 'app/shared/model/job-history.model';
 import { Pays } from 'app/shared/model/enumerations/pays.model';
@@ -40,11 +40,11 @@ export interface IEmployee {
   contractType?: keyof typeof ContractType | null;
   salaryType?: keyof typeof SalaryType | null;
   hireDate?: dayjs.Dayjs | null;
-  enterprises?: IEnterprise[] | null;
   jobs?: IJob[] | null;
   managers?: IEmployee[] | null;
+  enterprises?: IEnterprise[] | null;
   department?: IDepartment | null;
-  employe?: IEmployee | null;
+  employee?: IEmployee | null;
   jobHistory?: IJobHistory | null;
 }
 

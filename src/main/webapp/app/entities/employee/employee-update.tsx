@@ -85,7 +85,7 @@ export const EmployeeUpdate = () => {
     const entity = {
       ...employeeEntity,
       ...values,
-      employe: employees.find(it => it.id.toString() === values.employe.toString()),
+      employee: employees.find(it => it.id.toString() === values.employee.toString()),
       department: departments.find(it => it.id.toString() === values.department.toString()),
     };
 
@@ -118,7 +118,7 @@ export const EmployeeUpdate = () => {
           releaseDate: convertDateTimeFromServer(employeeEntity.releaseDate),
           hireDate: convertDateTimeFromServer(employeeEntity.hireDate),
           department: employeeEntity?.department?.id,
-          employe: employeeEntity?.employe?.id,
+          employee: employeeEntity?.employee?.id,
         };
 
   return (
@@ -398,10 +398,10 @@ export const EmployeeUpdate = () => {
                   : null}
               </ValidatedField>
               <ValidatedField
-                id="employee-employe"
-                name="employe"
-                data-cy="employe"
-                label={translate('acrmApp.employee.employe')}
+                id="employee-employee"
+                name="employee"
+                data-cy="employee"
+                label={translate('acrmApp.employee.employee')}
                 type="select"
               >
                 <option value="" key="0" />

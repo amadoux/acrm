@@ -130,9 +130,7 @@ relationship OneToOne {
 relationship OneToOne {
 	Department{location} to Location
 }
-relationship OneToMany {
-	Employee{enterprise(companyName)} to Enterprise{employee}
-}
+
 relationship ManyToMany {
 	Job{task(title)} to Task{job}
 }
@@ -148,11 +146,12 @@ relationship OneToMany {
 	* Another side of the same relationship
 	*/
 	Employee{department}
+    Employee{manager(email)} to Employee
+    Employee{enterprise(companyName)} to Enterprise
 }
 
-relationship OneToMany {
-	Employee{manager(email)} to Employee{employe}
-}
+
+
 
 // defining multiple oneToOne relationships
 relationship OneToOne {

@@ -135,14 +135,6 @@
   "pagination": "infinite-scroll",
   "relationships": [
     {
-      "otherEntityField": "companyName",
-      "otherEntityName": "enterprise",
-      "otherEntityRelationshipName": "employee",
-      "relationshipName": "enterprise",
-      "relationshipSide": "left",
-      "relationshipType": "one-to-many"
-    },
-    {
       "otherEntityName": "job",
       "otherEntityRelationshipName": "employee",
       "relationshipName": "job",
@@ -152,8 +144,14 @@
     {
       "otherEntityField": "email",
       "otherEntityName": "employee",
-      "otherEntityRelationshipName": "employe",
       "relationshipName": "manager",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "companyName",
+      "otherEntityName": "enterprise",
+      "relationshipName": "enterprise",
       "relationshipSide": "left",
       "relationshipType": "one-to-many"
     },
@@ -161,13 +159,6 @@
       "documentation": "Another side of the same relationship",
       "otherEntityName": "department",
       "relationshipName": "department",
-      "relationshipSide": "right",
-      "relationshipType": "many-to-one"
-    },
-    {
-      "otherEntityName": "employee",
-      "otherEntityRelationshipName": "manager",
-      "relationshipName": "employe",
       "relationshipSide": "right",
       "relationshipType": "many-to-one"
     }

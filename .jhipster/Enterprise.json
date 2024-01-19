@@ -64,15 +64,7 @@
     }
   ],
   "name": "Enterprise",
-  "relationships": [
-    {
-      "otherEntityName": "employee",
-      "otherEntityRelationshipName": "enterprise",
-      "relationshipName": "employee",
-      "relationshipSide": "right",
-      "relationshipType": "many-to-one"
-    }
-  ],
+  "relationships": [],
   "searchEngine": "no",
   "service": "serviceImpl"
 }
